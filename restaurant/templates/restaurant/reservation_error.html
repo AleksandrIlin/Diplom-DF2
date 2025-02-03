@@ -1,0 +1,15 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}Ошибка при бронировании{% endblock %}
+
+{% block content %}
+
+<body>
+    <div class="text2-background">
+        <h1>Ошибка при бронировании</h1>
+        <p>{{ error|join:", " }}</p>
+    </div>
+    <a class="p-2 btn btn-primary" href="{% url 'restaurant:reservation' %}">Вернуться к форме бронирования</a>
+</body>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}Ошибка при бронировании{% endblock %}
+
+{% block content %}
+
+    <h2>Вы уверены, что хотите отменить бронирование?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Да, отменить</button>
+        <a href="{% url 'users:user_profile' user.id %}" type="submit" class="btn btn-success">Нет, вернуться назад</a>
+    </form>
+
+
+
+{% endblock %}

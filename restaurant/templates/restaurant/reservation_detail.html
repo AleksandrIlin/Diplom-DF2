@@ -1,0 +1,29 @@
+{% extends "restaurant/base.html" %}
+{% block title %}Подробное бронирование{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Список всех бронирований</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Количество гостей</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+
+                <tr>
+                    <td>{{ reservation.name }}</td>
+                    <td>{{ reservation.date }}</td>
+                    <td>{{ reservation.time }}</td>
+                    <td>{{ reservation.guests }}</td>
+                    <td>{{ reservation.status }}</td>
+                </tr>
+
+        </tbody>
+    </table>
+</div>
+{% endblock %}
