@@ -74,8 +74,6 @@ class UserListView(ListView):
         return CustomUser.objects.all()
 
 
-
-
 class UserDetailView(DetailView):
     """Представление детальной информации о пользователе"""
     model = CustomUser

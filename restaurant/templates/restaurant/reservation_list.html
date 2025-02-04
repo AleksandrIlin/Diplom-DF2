@@ -29,17 +29,22 @@
                         <form action="{% url 'restaurant:update_status' reservation.id %}" method="POST">
                             {% csrf_token %}
                             <select name="status" class="form-control" onchange="this.form.submit()">
-                                <option value="confirmed" {% if reservation.status == "confirmed" %}selected{% endif %}>Подтверждено</option>
-                                <option value="canceled" {% if reservation.status == 'canceled' %}selected{% endif %}>Отменено</option>
-                                <option value="pending" {% if reservation.status == 'pending' %}selected{% endif %}>В ожидании</option>
+                                <option value="confirmed" {% if reservation.status == "confirmed" %}selected
+                                {% endif %}>Подтверждено</option>
+                                <option value="canceled" {% if reservation.status == 'canceled' %}selected
+                                {% endif %}>Отменено</option>
+                                <option value="pending" {% if reservation.status == 'pending' %}selected
+                                {% endif %}>В ожидании</option>
                             </select>
                         </form>
                     </td>
                                         <td>
-                        <a href="{% url 'restaurant:reservation_detail' reservation.id %}" class="btn btn-success btn-sm">Подробнее</a>
+                        <a href="{% url 'restaurant:reservation_detail' reservation.id %}"
+                           class="btn btn-success btn-sm">Подробнее</a>
                     </td>
                     <td>
-                        <a href="{% url 'restaurant:reservation_delete' reservation.id %}" class="btn btn-success btn-sm">Отменить бронирование</a>
+                        <a href="{% url 'restaurant:reservation_delete' reservation.id %}"
+                           class="btn btn-success btn-sm">Отменить бронирование</a>
                     </td>
                 </tr>
             {% empty %}

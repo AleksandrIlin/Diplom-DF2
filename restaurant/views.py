@@ -136,6 +136,16 @@ class CancelReservationView(LoginRequiredMixin, DeleteView):
     model = Reservation
     template_name = 'restaurant/confirm_reservation_delete.html'  # Укажите путь к вашему шаблону, если нужен
 
+    def test_func(self):
+        return (
+            self.request.user.is_authenticated
+            and self.request.user.has_perm("restaurant:delete_reservation")
+            or self.request.reservation.owner
+        )
+
+    def handle_no_permission(self):
+        return redirect("restaurant:delete_reservation")
+
     def get_object(self, queryset=None):
         # Получите объект по первичному ключу (pk)
         return super().get_object(queryset)
@@ -149,18 +159,24 @@ class CancelReservationView(LoginRequiredMixin, DeleteView):
             'default_redirect_url')
 
 
-class ReservationDeleteView(DeleteView):
+class ReservationDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Reservation
     template_name = 'restaurant/reservation_delete.html'  # Убедитесь, что этот шаблон существует
     success_url = reverse_lazy('restaurant:reservation_list')
+
+    def test_func(self):
+        return (
+            self.request.user.is_authenticated
+            and self.request.user.has_perm("restaurant:delete_reservation")
+        )
 
     def get_object(self, queryset=None):
         # Получите объект по первичному ключу (pk)
         return super().get_object(queryset)
 
 
-class ReservationUpdateView(UpdateView, LoginRequiredMixin):
+class ReservationUpdateView(LoginRequiredMixin, UpdateView):
     """Представление редактирование бронирования"""
     model = Reservation
     form_class = ReservationForm

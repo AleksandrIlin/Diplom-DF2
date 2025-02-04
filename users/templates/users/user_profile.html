@@ -24,7 +24,7 @@
 <nav class="ms-auto">
 
 </nav>
-
+{% if not user.is_manager and not user.is_superuser %}
 <div class="text2-background">
     <h3>Ваши бронирования:</h3>
     {% if reservations %}
@@ -47,4 +47,5 @@
         <p>У вас нет активных бронирований.</p>
     {% endif %}
 </div>
+{% endif %}
 {% endblock %}
