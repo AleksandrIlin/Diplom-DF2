@@ -1,0 +1,58 @@
+{% extends "restaurant/base.html" %}
+{% block title %}Список бронирований{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Список всех бронирований</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Количество гостей</th>
+                <th>Статус</th>
+                <th>Изменение статуса</th>
+                <th>Подробнее</th>
+                <th>Отмена</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservation_list %}
+                <tr>
+                    <td>{{ reservation.name }}</td>
+                    <td>{{ reservation.date }}</td>
+                    <td>{{ reservation.time }}</td>
+                    <td>{{ reservation.guests }}</td> <!-- Предполагается, что у вас есть поле guest_count в модели -->
+                    <td>{{ reservation.status }}</td> <!-- Предполагается, что у вас есть поле status в модели -->
+                    <td>
+                        <form action="{% url 'restaurant:update_status' reservation.id %}" method="POST">
+                            {% csrf_token %}
+                            <select name="status" class="form-control" onchange="this.form.submit()">
+                                <option value="Confirm" {% if reservation.status == "Confirm" %}selected
+                                {% endif %}>Подтверждено</option>
+                                <option value="Canceled" {% if reservation.status == 'Canceled' %}selected
+                                {% endif %}>Отменено</option>
+                                <option value="Reserved" {% if reservation.status == 'Reserved' %}selected
+                                {% endif %}>В ожидании</option>
+                            </select>
+                        </form>
+                    </td>
+                                        <td>
+                        <a href="{% url 'restaurant:reservation_detail' reservation.id %}"
+                           class="btn btn-success btn-sm">Подробнее</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'restaurant:reservation_delete' reservation.id %}"
+                           class="btn btn-success btn-sm">Отменить бронирование</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Нет бронирований.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

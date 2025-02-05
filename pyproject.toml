@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "diplom-df2"
+version = "0.1.0"
+description = ""
+authors = ["Aleksandr <aqwa06@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+poetry = "^1.8.5"
+python-dotenv = "^1.0.1"
+django = "^5.1.4"
+psycopg2-binary = "^2.9.10"
+pillow = "^11.1.0"
+ipython = "^8.31.0"
+redis = "^5.2.1"
+nullable = "^0.2.0"
+gunicorn = "^23.0.0"
+celery = "^5.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

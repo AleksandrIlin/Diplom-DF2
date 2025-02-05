@@ -1,0 +1,40 @@
+{% extends 'restaurant/base.html' %}
+{% block title %}Подтверждение бронирования{% endblock %}
+
+{% block content %}
+<div class="text2-background container mt-5">
+    <h1 class="text-center mb-4">Подтверждение бронирования</h1>
+
+    {% if reservation_data %}
+        <p class="text-center">Вы уверены, что хотите забронировать столик на имя <strong>"{{ reservation_data.name }}"</strong>?</p>
+        <p class="text-center">Дата: <strong>{{ reservation_data.date }}</strong></p>
+        <p class="text-center">Время: <strong>{{ reservation_data.time }}</strong></p>
+        <p class="text-center">Количество человек: <strong>{{ reservation_data.guests }}</strong></p>
+
+        <form method="post" class="text-center">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Забронировать</button>
+            <a href="{% url 'restaurant:reservation' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    {% else %}
+        <p class="text-center">Нет данных о бронировании.</p>
+        <a href="{% url 'restaurant:reservation' %}" class="btn btn-secondary">Назад к бронированию</a>
+    {% endif %}
+</div>
+
+{% if form.errors %}
+    <div class="alert alert-danger container mt-4">
+        <strong>Пожалуйста, исправьте следующие ошибки:</strong>
+        <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{% endblock %}

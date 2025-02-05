@@ -1,0 +1,51 @@
+{% extends 'restaurant/base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="text2-background">
+<h1>Детали пользователя: {{ user.username }}</h1>
+
+        <div class="d-flex justify-content-center">
+            <img src="{{ user.avatar | media_filter }}" class="background-image" alt="avatar"
+                 style="max-width: 300px; max-height: 300px; width: 100%; height: 100%;">
+        </div>
+
+
+
+    <ul>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    <li><strong>Имя:</strong> {{ user.first_name }}</li>
+    <li><strong>Номер телефона:</strong> {{ user.phone_number }}</li>
+    <li><strong>Страна:</strong> {{ user.country }}</li>
+    </ul>
+    <div class="card-body text-end">
+        <a class="btn btn-primary" href="{% url 'users:change_password' %}">Изменить пароль</a>
+    </div>
+</div>
+<nav class="ms-auto">
+
+</nav>
+{% if not user.is_manager and not user.is_superuser %}
+<div class="text2-background">
+    <h1>Ваши бронирования:</h1>
+    {% if reservations %}
+        <ul>
+        {% for reservation in reservations %}
+            <li>
+                <strong>Номер брони:</strong> {{ reservation.id }} <br>
+                <strong>Дата:</strong> {{ reservation.date | date:"d.m.Y" }} <br>
+                <strong>Время:</strong> {{ reservation.time | time:"H:i" }} <br>
+                <strong>Количество человек:</strong> {{ reservation.guests }} <br>
+                <strong>Стол:</strong> {{ reservation.table }} <br>
+                <strong>Статус:</strong> {{ reservation.get_status_display }} <br>
+
+                <a class="p-2 btn btn-danger" href="{% url 'restaurant:cancel_reservation' reservation.id %}">Отменить бронирование</a>
+
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас нет активных бронирований.</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

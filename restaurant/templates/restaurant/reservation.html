@@ -1,0 +1,41 @@
+{% extends "restaurant/base.html" %}
+
+{% block title %}Бронирование{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-white">Добро пожаловать в наш ресторан</h1>
+    <p class="text-center text-white">Мы рады предложить вам лучшие блюда и отличный сервис.</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="mt-5 text-center text-white">Форма для бронирования</h2>
+            <form method="post" class="p-4 rounded shadow-sm" style="background-color: rgba(0, 0, 0, 0.5); border: none;">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-warning">Забронировать</button>
+            </form>
+        </div>
+        <div class="col-md-4 offset-md-1">
+            <h2 class="mt-5 text-center text-white">Информация по столам</h2>
+            <ul class="list-group">
+                {% for table in all_tables %}
+                    <li class="list-group-item text-black">
+                        Стол № {{ table.number }} - {{ table.get_status_display }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="text2-background">
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %} >{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}
