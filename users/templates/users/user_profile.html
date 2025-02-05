@@ -36,7 +36,7 @@
                 <strong>Время:</strong> {{ reservation.time | time:"H:i" }} <br>
                 <strong>Количество человек:</strong> {{ reservation.guests }} <br>
                 <strong>Стол:</strong> {{ reservation.table }} <br>
-                <strong>Статус:</strong> {{ reservation.status }} <br>
+                <strong>Статус:</strong> {{ reservation.get_status_display }} <br>
 
                 <a class="p-2 btn btn-danger" href="{% url 'restaurant:cancel_reservation' reservation.id %}">Отменить бронирование</a>
 

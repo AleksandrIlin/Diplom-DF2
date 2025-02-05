@@ -83,7 +83,6 @@ class ReservationForm(StyleFormMixin, forms.ModelForm):
                 if reservation_end_time > start_time:
                     raise ValidationError(f"Выбранный столик №{table.number} не может быть забронирован в течение часа "
                                           f"после предыдущей брони.")
-
         return cleaned_data
 
     def save(self, commit=True):
