@@ -30,9 +30,9 @@ class Reservation(models.Model):
     """Модель бронирования"""
 
     STATUS_CHOICES = [
-        ("confirmed", "Подтверждено"),
-        ("reserved", "в ожидании"),
-        ('canceled', 'Отменено'),
+        ("Сonfirm", "Подтверждено"),
+        ("Reserved", "В ожидании"),
+        ('Canceled', 'Отменено'),
     ]
 
     owner = models.ForeignKey(
@@ -51,7 +51,7 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     table = models.ForeignKey(Tables, on_delete=models.CASCADE, verbose_name="Стол", related_name="reservations")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Reserved")
 
     def __str__(self):
         return f"Бронирование от {self.name} на {self.date} в {self.time} на {self.guests} гостей"

@@ -29,11 +29,11 @@
                         <form action="{% url 'restaurant:update_status' reservation.id %}" method="POST">
                             {% csrf_token %}
                             <select name="status" class="form-control" onchange="this.form.submit()">
-                                <option value="confirmed" {% if reservation.status == "confirmed" %}selected
+                                <option value="Confirm" {% if reservation.status == "Confirm" %}selected
                                 {% endif %}>Подтверждено</option>
-                                <option value="canceled" {% if reservation.status == 'canceled' %}selected
+                                <option value="Canceled" {% if reservation.status == 'Canceled' %}selected
                                 {% endif %}>Отменено</option>
-                                <option value="pending" {% if reservation.status == 'pending' %}selected
+                                <option value="Reserved" {% if reservation.status == 'Reserved' %}selected
                                 {% endif %}>В ожидании</option>
                             </select>
                         </form>

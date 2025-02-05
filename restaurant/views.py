@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.exceptions import ValidationError, PermissionDenied
+from django.core.exceptions import ValidationError
 from django.views.generic import TemplateView
 from django.views.generic import View
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib import messages
 from django.views.generic import FormView, DeleteView, UpdateView, ListView, DetailView
 from django.urls import reverse_lazy
@@ -59,13 +59,14 @@ class ReservationView(FormView):
         table = form.cleaned_data['table']
         date = form.cleaned_data['date']
         time = form.cleaned_data['time']
+        guests = form.cleaned_data['guests']
 
         # Создаем объект Reservation для проверки доступности стола
         reservation = Reservation(
             table=table,
             date=date,
             time=time,
-            guests=form.cleaned_data['guests'],
+            guests=guests,
             name=form.cleaned_data['name'],
             email=form.cleaned_data['email'],
             phone=form.cleaned_data['phone']
@@ -75,6 +76,11 @@ class ReservationView(FormView):
         if not reservation.is_table_available():
             messages.error(self.request, 'К сожалению, этот стол уже забронирован на выбранное время. '
                                          'Пожалуйста, выберите другой стол или время.')
+            return self.form_invalid(form)
+
+        if guests > table.capacity:
+            messages.error(self.request, f'Количество гостей не должно превышать вместимость '
+                                         f'стола: {table.capacity}.')
             return self.form_invalid(form)
 
         try:
@@ -212,6 +218,11 @@ class UpdateReservationStatusView(View):
 
         # Получаем список доступных статусов
         valid_statuses = [status[0] for status in Reservation.STATUS_CHOICES]
+
+        if new_status in valid_statuses:
+            # Если статус "Сonfirm", необходимо убедиться, что он может быть установлен
+            if new_status == "Сonfirm" and reservation.status != "Reserved":
+                return HttpResponseBadRequest("Статус может быть изменен на 'Подтверждено' только из 'В ожидании'.")
 
         if new_status in valid_statuses:
             reservation.status = new_status
